@@ -1,5 +1,5 @@
-const fetch = require("node-fetch");
-var url = "https://cat-fact.herokuapp.com/facts"
+const url = "https://cat-fact.herokuapp.com/facts"
+var fact;
 
 const fetchPromise = function (api) {
   return fetch(api)
@@ -13,8 +13,16 @@ const fetchAsyncAwait = async function (api) {
   return results;
 }
 
-const printFact = async function (url, fetchCallback) {
-  fetchCallback(url).then(facts => console.log('Fact: ', facts[Math.floor(Math.random() * facts.length)].text))
+const printFact = function (url, fetchCallback) {
+  fetchCallback(url).then(facts => console.log('Fact: ', facts[Math.floor(Math.random() * facts.length)].text));
+}
+
+const htmlFact = function () {
+  fetchPromise(url).then(facts => 
+  {
+    fact = facts[Math.floor(Math.random() * facts.length)].text
+  });
+  document.getElementById('fact1').innerHTML = fact;
 }
 
 printFact(url, fetchAsyncAwait);
